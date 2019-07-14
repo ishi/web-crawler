@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 
+import static io.github.ishi.webcrawler.ExtractedUri.internalLink;
+import static io.github.ishi.webcrawler.ExtractedUri.staticResource;
+
 public class HtmlURIExtractorTest {
 
     private final HtmlURIExtractor sut = new HtmlURIExtractor();
@@ -19,11 +22,11 @@ public class HtmlURIExtractorTest {
                 "</html>";
 
         // When
-        Set<String> result = sut.extract(content);
+        Set<ExtractedUri> result = sut.extract(content);
 
         // Then
         Assertions.assertThat(result)
-                .isEqualTo(Set.of("http://test.ling.com/"));
+                .isEqualTo(Set.of(internalLink("http://test.ling.com/")));
     }
 
     @Test
@@ -36,11 +39,11 @@ public class HtmlURIExtractorTest {
                 "</html>";
 
         // When
-        Set<String> result = sut.extract(content);
+        Set<ExtractedUri> result = sut.extract(content);
 
         // Then
         Assertions.assertThat(result)
-                .isEqualTo(Set.of("http://test.img.com/"));
+                .isEqualTo(Set.of(staticResource("http://test.img.com/")));
     }
 
     @Test
@@ -53,11 +56,11 @@ public class HtmlURIExtractorTest {
                 "</html>";
 
         // When
-        Set<String> result = sut.extract(content);
+        Set<ExtractedUri> result = sut.extract(content);
 
         // Then
         Assertions.assertThat(result)
-                .isEqualTo(Set.of("http://test.script.com/"));
+                .isEqualTo(Set.of(staticResource("http://test.script.com/")));
     }
 
 
@@ -71,7 +74,7 @@ public class HtmlURIExtractorTest {
                 "</html>";
 
         // When
-        Set<String> result = sut.extract(content);
+        Set<ExtractedUri> result = sut.extract(content);
 
         // Then
         Assertions.assertThat(result).isEmpty();

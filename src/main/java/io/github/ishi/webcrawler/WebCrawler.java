@@ -4,6 +4,9 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
+import java.util.function.Predicate;
+
+import static java.util.stream.Collectors.toSet;
 
 public class WebCrawler {
 
@@ -28,13 +31,21 @@ public class WebCrawler {
             if(visitedLinks.contains(candidate)) continue;
             visitedLinks.add(candidate);
 
-            Set<String> links = provider.getContent(candidate)
+            Set<ExtractedUri> links = provider.getContent(candidate)
                     .map(extractor::extract)
                     .orElse(Collections.emptySet());
 
-            toProcess.addAll(links);
+            toProcess.addAll(
+                    links.stream()
+                            .filter(onlyInternalUris())
+                            .map(ExtractedUri::getUri)
+                            .collect(toSet()));
 
             System.out.println(visitedLinks);
         }
+    }
+
+    private Predicate<? super ExtractedUri> onlyInternalUris() {
+        return extractedUri -> extractedUri.getType() == URIType.INTERNAL_LINK;
     }
 }
