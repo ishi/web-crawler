@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 
-public class URIExtractorTest {
+public class HtmlURIExtractorTest {
+
+    private final HtmlURIExtractor sut = new HtmlURIExtractor();
 
     @Test
     public void whenHyperLinkProvided_shouldExtractIt() {
@@ -15,7 +17,6 @@ public class URIExtractorTest {
                 "<a href=\"http://test.ling.com/\">link</a>" +
                 "</body>" +
                 "</html>";
-        URIExtractor sut = new URIExtractor();
 
         // When
         Set<String> result = sut.extract(content);
@@ -33,7 +34,6 @@ public class URIExtractorTest {
                 "<img src=\"http://test.img.com/\">" +
                 "</body>" +
                 "</html>";
-        URIExtractor sut = new URIExtractor();
 
         // When
         Set<String> result = sut.extract(content);
@@ -51,7 +51,6 @@ public class URIExtractorTest {
                 "<script src=\"http://test.script.com/\">" +
                 "</body>" +
                 "</html>";
-        URIExtractor sut = new URIExtractor();
 
         // When
         Set<String> result = sut.extract(content);
@@ -70,7 +69,6 @@ public class URIExtractorTest {
                 "<script></script>" +
                 "</body>" +
                 "</html>";
-        URIExtractor sut = new URIExtractor();
 
         // When
         Set<String> result = sut.extract(content);
