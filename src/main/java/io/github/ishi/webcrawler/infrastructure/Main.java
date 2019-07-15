@@ -9,6 +9,10 @@ import java.net.http.HttpClient;
 
 public class Main {
     public static void main(String[] args) {
+        if (args.length < 1) {
+            System.out.println("Base url have to provided as the first parameters");
+            System.exit(1);
+        }
 
         HttpClient client = HttpClient.newBuilder()
                 .followRedirects(HttpClient.Redirect.NORMAL)
@@ -16,6 +20,6 @@ public class Main {
 
         HttpDataProvider dataProvider = new HttpDataProvider(client);
         new WebCrawler(dataProvider, new HtmlURIExtractor(), new XmlSitemapOutputFormat(), System.out::println)
-                .analyze("http://wiprodigital.com");
+                .analyze(args[0]);
     }
 }

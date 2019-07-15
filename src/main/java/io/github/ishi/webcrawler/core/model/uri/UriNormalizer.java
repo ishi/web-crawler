@@ -25,7 +25,7 @@ public class UriNormalizer {
                 return externalLink(uri.toString());
             }
             return extracted.withUri(uri.toString());
-        } catch (URISyntaxException e) {
+        } catch (Exception e) {
             return malformedLink(extracted.getUri());
         }
     }
