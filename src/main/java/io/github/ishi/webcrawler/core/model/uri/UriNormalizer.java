@@ -1,6 +1,7 @@
 package io.github.ishi.webcrawler.core.model.uri;
 
 import io.github.ishi.webcrawler.core.model.ExtractedUri;
+import io.github.ishi.webcrawler.core.model.URIType;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -17,9 +18,10 @@ public class UriNormalizer {
 
     public ExtractedUri normalize(ExtractedUri extracted) {
         try {
-            URI uri = new URI(extracted.getUri());
+            String str = extracted.getUri().replaceAll("#.*$", "");
+            URI uri = new URI(str);
             uri = baseUrl.normalize().resolve(uri);
-            if (!uri.getHost().endsWith(baseUrl.getHost())) {
+            if (extracted.getType() == URIType.INTERNAL_LINK && !uri.getHost().endsWith(baseUrl.getHost())) {
                 return externalLink(uri.toString());
             }
             return extracted.withUri(uri.toString());
