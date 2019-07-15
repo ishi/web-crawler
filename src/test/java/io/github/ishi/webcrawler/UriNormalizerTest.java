@@ -40,6 +40,18 @@ class UriNormalizerTest {
     }
 
     @Test
+    void whenInternalSubdomainUri_shouldDoNothing() {
+        // Given
+        ExtractedUri uri = internalLink("http://subdomain.internal/subpage");
+
+        // When
+        ExtractedUri result = sut.normalize(uri);
+
+        // Then
+        assertThat(result).isEqualTo(uri);
+    }
+
+    @Test
     void whenExternalUri_shouldMarkItAsExternal() {
         // Given
         ExtractedUri uri = internalLink("http://external/subpage");

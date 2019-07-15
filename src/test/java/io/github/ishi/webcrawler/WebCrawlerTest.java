@@ -13,8 +13,10 @@ class WebCrawlerTest {
 
     private final DataProvider provider = mock(DataProvider.class);
     private final URIExtractor extractor = mock(URIExtractor.class);
+    private final OutputFormat formatter = mock(OutputFormat.class);
+    private final DataOutput output = mock(DataOutput.class);
 
-    private final WebCrawler sut = new WebCrawler(provider, extractor);
+    private final WebCrawler sut = new WebCrawler(provider, extractor, formatter, output);
 
     @Test
     void whenProcessStarted_shouldAsForBaseUrlContent() {
@@ -122,4 +124,36 @@ class WebCrawlerTest {
         verify(provider).getContent("http://page/subpage1");
         verifyNoMoreInteractions(provider);
     }
+
+    @Test
+    void whenLinksExtracted_shouldUseFormatterToCreateOutputContent() {
+        // Given
+        String baseBody = "base";
+        when(provider.getContent("http://page/")).thenReturn(Optional.of(baseBody));
+        when(extractor.extract(baseBody)).thenReturn(
+                Set.of(internalLink("http://page/subpage1"), staticResource("http://page/static/")));
+
+        // When
+        sut.analyze("http://page/");
+
+        // Then
+        verify(formatter).format(Set.of(internalLink("http://page/subpage1"), staticResource("http://page/static/")));
+    }
+
+    @Test
+    void whenLinksExtracted_shouldUseDataOutputToStoreData() {
+        // Given
+        String baseBody = "base";
+        when(provider.getContent("http://page/")).thenReturn(Optional.of(baseBody));
+        when(extractor.extract(baseBody)).thenReturn(
+                Set.of(internalLink("http://page/subpage1"), staticResource("http://page/static/")));
+        when(formatter.format(anyCollection())).thenReturn("formatted output");
+
+        // When
+        sut.analyze("http://page/");
+
+        // Then
+        verify(output).accept("formatted output");
+    }
+
 }

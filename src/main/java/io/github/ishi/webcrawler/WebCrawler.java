@@ -17,13 +17,18 @@ public class WebCrawler {
 
     private final DataProvider provider;
     private final URIExtractor extractor;
+    private OutputFormat formatter;
+    private final DataOutput output;
 
     private final LinkedList<String> toProcess = new LinkedList<>();
     private final Set<String> visitedLinks = new HashSet<>();
+    private final Set<ExtractedUri> collectedUris = new HashSet<>();
 
-    public WebCrawler(DataProvider provider, URIExtractor extractor) {
+    public WebCrawler(DataProvider provider, URIExtractor extractor, OutputFormat formatter, DataOutput output) {
         this.provider = provider;
         this.extractor = extractor;
+        this.formatter = formatter;
+        this.output = output;
     }
 
     public void analyze(String baseUrl) {
@@ -45,6 +50,8 @@ public class WebCrawler {
                         .map(normalizer::normalize)
                         .collect(toSet());
 
+                collectedUris.addAll(links);
+
                 toProcess.addAll(
                         links.stream()
                                 .filter(onlyInternalUris())
@@ -56,6 +63,7 @@ public class WebCrawler {
                 logger.error("Problem parsing URI", e);
             }
         }
+        output.accept(formatter.format(collectedUris));
     }
 
     private Predicate<? super ExtractedUri> onlyInternalUris() {
