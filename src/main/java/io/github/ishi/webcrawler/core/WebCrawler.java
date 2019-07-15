@@ -51,6 +51,7 @@ public class WebCrawler {
     }
 
     private void processUri(String uri) {
+        logger.info("Processing URI {}", uri);
         try {
             Set<ExtractedUri> foundUris = extractUrisFromPage(uri);
             toProcess.addAll(selectUrisForProcessing(foundUris));
