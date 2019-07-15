@@ -48,5 +48,7 @@ in my opinion are:
     is large.
 * Streaming content - in order to improve memory usage it would be good to use more streaming approach
     starting from dowloading content, parsing document, formating and ending with saving document
+* Async calls - in such application is a lot of I/O call which are blocking by definition. Probably
+    it can be beneficial to use non blocking APIs to download data, it can increase throughput.
 * Command line arguments parsing - introduce more advanced/clever command line parsers e.g commons-cli
 * Additional output destinations - e.g. file
