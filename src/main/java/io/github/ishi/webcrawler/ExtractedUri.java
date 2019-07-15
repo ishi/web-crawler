@@ -19,8 +19,12 @@ public class ExtractedUri {
         return new ExtractedUri(URIType.STATIC_RESOURCE, uri);
     }
 
-    public static ExtractedUri externalLin(String uri) {
+    public static ExtractedUri externalLink(String uri) {
         return new ExtractedUri(URIType.EXTERNAL_LINK, uri);
+    }
+
+    public static ExtractedUri malformedLink(String uri) {
+        return new ExtractedUri(URIType.MALFORMED_LINK, uri);
     }
 
     public URIType getType() {
@@ -29,6 +33,10 @@ public class ExtractedUri {
 
     public String getUri() {
         return uri;
+    }
+
+    public ExtractedUri withUri(String uri) {
+        return new ExtractedUri(this.getType(), uri);
     }
 
     @Override

@@ -1,5 +1,9 @@
 package io.github.ishi.webcrawler;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -9,6 +13,7 @@ import java.util.function.Predicate;
 import static java.util.stream.Collectors.toSet;
 
 public class WebCrawler {
+    private static final Logger logger = LoggerFactory.getLogger(WebCrawler.class);
 
     private final DataProvider provider;
     private final URIExtractor extractor;
@@ -23,29 +28,33 @@ public class WebCrawler {
 
     public void analyze(String baseUrl) {
         toProcess.add(baseUrl);
-        UriNormalizer normalizer = new UriNormalizer(baseUrl);
 
-        System.out.println("-------start ------");
         while (!toProcess.isEmpty()) {
+            logger.debug("URIs to process {}", toProcess);
             String candidate = toProcess.removeFirst();
+            try {
+                UriNormalizer normalizer = new UriNormalizer(candidate);
 
-            if(visitedLinks.contains(candidate)) continue;
-            visitedLinks.add(candidate);
+                if (visitedLinks.contains(candidate)) continue;
+                visitedLinks.add(candidate);
 
-            Set<ExtractedUri> links = provider.getContent(candidate)
-                    .map(extractor::extract)
-                    .orElse(Collections.emptySet())
-                    .stream()
-                    .map(normalizer::normalize)
-                    .collect(toSet());
+                Set<ExtractedUri> links = provider.getContent(candidate)
+                        .map(extractor::extract)
+                        .orElse(Collections.emptySet())
+                        .stream()
+                        .map(normalizer::normalize)
+                        .collect(toSet());
 
-            toProcess.addAll(
-                    links.stream()
-                            .filter(onlyInternalUris())
-                            .map(ExtractedUri::getUri)
-                            .collect(toSet()));
+                toProcess.addAll(
+                        links.stream()
+                                .filter(onlyInternalUris())
+                                .map(ExtractedUri::getUri)
+                                .collect(toSet()));
 
-            System.out.println(visitedLinks);
+                logger.debug("Visited URIs {}", visitedLinks);
+            } catch (URISyntaxException e) {
+                logger.error("Problem parsing URI", e);
+            }
         }
     }
 
