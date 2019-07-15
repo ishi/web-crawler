@@ -37,6 +37,22 @@ major systems linux and windows, creating tar and zip packages respectively.
 ```
 Created packages are available in build/distributions directory
 
+
+Tests can be run with command
+```sh
+./gradlew clean test
+```
+
+## Reasoning
+I decided to use pure java introducing as less external libraries as possible. The size 
+of the application is small so none of advanced frameworks with DI is required.
+Structuring the code I followed clean architecture principles that is described on page 
+https://github.com/mattia-battiston/clean-architecture-example. The main idea here is to 
+separate the core of the application from external world. This way we end up with reversed 
+dependency direction.
+All the code was created using TDD approach.
+ 
+
 ## Future improvements
 It's simple implementation hence there is a lot of room for improvement. The most important
 in my opinion are:
