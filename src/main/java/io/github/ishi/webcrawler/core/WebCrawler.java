@@ -1,5 +1,12 @@
-package io.github.ishi.webcrawler;
+package io.github.ishi.webcrawler.core;
 
+import io.github.ishi.webcrawler.core.content.URIExtractor;
+import io.github.ishi.webcrawler.core.input.DataProvider;
+import io.github.ishi.webcrawler.core.model.ExtractedUri;
+import io.github.ishi.webcrawler.core.model.URIType;
+import io.github.ishi.webcrawler.core.model.uri.UriNormalizer;
+import io.github.ishi.webcrawler.core.output.DataOutput;
+import io.github.ishi.webcrawler.core.output.OutputFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,11 +63,11 @@ public class WebCrawler {
 
     private Set<ExtractedUri> extractUrisFromPage(String uri) throws URISyntaxException {
         return provider.getContent(uri)
-                        .map(extractor::extract)
-                        .orElse(Collections.emptySet())
-                        .stream()
-                        .map(new UriNormalizer(uri)::normalize)
-                        .collect(toSet());
+                .map(extractor::extract)
+                .orElse(Collections.emptySet())
+                .stream()
+                .map(new UriNormalizer(uri)::normalize)
+                .collect(toSet());
     }
 
     private Set<String> selectUrisForProcessing(Set<ExtractedUri> foundUris) {

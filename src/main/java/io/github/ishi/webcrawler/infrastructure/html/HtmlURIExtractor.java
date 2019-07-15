@@ -1,5 +1,7 @@
-package io.github.ishi.webcrawler;
+package io.github.ishi.webcrawler.infrastructure.html;
 
+import io.github.ishi.webcrawler.core.content.URIExtractor;
+import io.github.ishi.webcrawler.core.model.ExtractedUri;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 

@@ -1,4 +1,4 @@
-package io.github.ishi.webcrawler;
+package io.github.ishi.webcrawler.core.model;
 
 import java.util.Objects;
 

@@ -1,4 +1,6 @@
-package io.github.ishi.webcrawler;
+package io.github.ishi.webcrawler.core.output;
+
+import io.github.ishi.webcrawler.core.model.ExtractedUri;
 
 import java.util.Collection;
 

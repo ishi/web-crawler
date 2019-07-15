@@ -1,12 +1,14 @@
-package io.github.ishi.webcrawler;
+package io.github.ishi.webcrawler.infrastructure.html;
 
+import io.github.ishi.webcrawler.infrastructure.html.HtmlURIExtractor;
+import io.github.ishi.webcrawler.core.model.ExtractedUri;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 
-import static io.github.ishi.webcrawler.ExtractedUri.internalLink;
-import static io.github.ishi.webcrawler.ExtractedUri.staticResource;
+import static io.github.ishi.webcrawler.core.model.ExtractedUri.internalLink;
+import static io.github.ishi.webcrawler.core.model.ExtractedUri.staticResource;
 
 class HtmlURIExtractorTest {
 

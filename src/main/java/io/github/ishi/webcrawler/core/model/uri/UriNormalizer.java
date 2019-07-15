@@ -1,12 +1,14 @@
-package io.github.ishi.webcrawler;
+package io.github.ishi.webcrawler.core.model.uri;
+
+import io.github.ishi.webcrawler.core.model.ExtractedUri;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import static io.github.ishi.webcrawler.ExtractedUri.externalLink;
-import static io.github.ishi.webcrawler.ExtractedUri.malformedLink;
+import static io.github.ishi.webcrawler.core.model.ExtractedUri.externalLink;
+import static io.github.ishi.webcrawler.core.model.ExtractedUri.malformedLink;
 
-class UriNormalizer {
+public class UriNormalizer {
     private URI baseUrl;
 
     public UriNormalizer(String baseUrl) throws URISyntaxException {

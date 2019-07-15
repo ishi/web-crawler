@@ -1,12 +1,17 @@
-package io.github.ishi.webcrawler;
+package io.github.ishi.webcrawler.core;
 
+import io.github.ishi.webcrawler.core.WebCrawler;
+import io.github.ishi.webcrawler.core.content.URIExtractor;
+import io.github.ishi.webcrawler.core.input.DataProvider;
+import io.github.ishi.webcrawler.core.output.DataOutput;
+import io.github.ishi.webcrawler.core.output.OutputFormat;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 import java.util.Set;
 
-import static io.github.ishi.webcrawler.ExtractedUri.internalLink;
-import static io.github.ishi.webcrawler.ExtractedUri.staticResource;
+import static io.github.ishi.webcrawler.core.model.ExtractedUri.internalLink;
+import static io.github.ishi.webcrawler.core.model.ExtractedUri.staticResource;
 import static org.mockito.Mockito.*;
 
 class WebCrawlerTest {

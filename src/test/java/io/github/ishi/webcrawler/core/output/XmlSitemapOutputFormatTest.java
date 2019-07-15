@@ -1,11 +1,12 @@
-package io.github.ishi.webcrawler;
+package io.github.ishi.webcrawler.core.output;
 
+import io.github.ishi.webcrawler.core.model.ExtractedUri;
+import io.github.ishi.webcrawler.core.output.XmlSitemapOutputFormat;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.Set;
 
-import static io.github.ishi.webcrawler.ExtractedUri.*;
+import static io.github.ishi.webcrawler.core.model.ExtractedUri.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class XmlSitemapOutputFormatTest {
@@ -22,9 +23,9 @@ public class XmlSitemapOutputFormatTest {
 
         // Then
         assertThat(result)
-        .isEqualTo("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                + "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n"
-                + "</urlset>");
+                .isEqualTo("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                        + "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n"
+                        + "</urlset>");
     }
 
     @Test
@@ -37,17 +38,17 @@ public class XmlSitemapOutputFormatTest {
 
         // Then
         assertThat(result)
-        .isEqualTo("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                + "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n"
-                + "  <url>\n"
-                + "    <loc>http://domain/page1</loc>\n"
-                + "    <type>INTERNAL_LINK</type>\n"
-                + "  </url>\n"
-                + "  <url>\n"
-                + "    <loc>http://domain/page2</loc>\n"
-                + "    <type>INTERNAL_LINK</type>\n"
-                + "  </url>\n"
-                + "</urlset>");
+                .isEqualTo("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+                        + "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n"
+                        + "  <url>\n"
+                        + "    <loc>http://domain/page1</loc>\n"
+                        + "    <type>INTERNAL_LINK</type>\n"
+                        + "  </url>\n"
+                        + "  <url>\n"
+                        + "    <loc>http://domain/page2</loc>\n"
+                        + "    <type>INTERNAL_LINK</type>\n"
+                        + "  </url>\n"
+                        + "</urlset>");
     }
 
     @Test

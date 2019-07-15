@@ -1,11 +1,13 @@
-package io.github.ishi.webcrawler;
+package io.github.ishi.webcrawler.core.model.uri;
 
+import io.github.ishi.webcrawler.core.model.ExtractedUri;
+import io.github.ishi.webcrawler.core.model.uri.UriNormalizer;
 import org.junit.jupiter.api.Test;
 
 import java.net.URISyntaxException;
 
-import static io.github.ishi.webcrawler.ExtractedUri.externalLink;
-import static io.github.ishi.webcrawler.ExtractedUri.internalLink;
+import static io.github.ishi.webcrawler.core.model.ExtractedUri.externalLink;
+import static io.github.ishi.webcrawler.core.model.ExtractedUri.internalLink;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class UriNormalizerTest {
