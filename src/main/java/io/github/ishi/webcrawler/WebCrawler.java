@@ -23,6 +23,7 @@ public class WebCrawler {
 
     public void analyze(String baseUrl) {
         toProcess.add(baseUrl);
+        UriNormalizer normalizer = new UriNormalizer(baseUrl);
 
         System.out.println("-------start ------");
         while (!toProcess.isEmpty()) {
@@ -33,7 +34,10 @@ public class WebCrawler {
 
             Set<ExtractedUri> links = provider.getContent(candidate)
                     .map(extractor::extract)
-                    .orElse(Collections.emptySet());
+                    .orElse(Collections.emptySet())
+                    .stream()
+                    .map(normalizer::normalize)
+                    .collect(toSet());
 
             toProcess.addAll(
                     links.stream()
@@ -48,4 +52,5 @@ public class WebCrawler {
     private Predicate<? super ExtractedUri> onlyInternalUris() {
         return extractedUri -> extractedUri.getType() == URIType.INTERNAL_LINK;
     }
+
 }

@@ -19,6 +19,10 @@ public class ExtractedUri {
         return new ExtractedUri(URIType.STATIC_RESOURCE, uri);
     }
 
+    public static ExtractedUri externalLin(String uri) {
+        return new ExtractedUri(URIType.EXTERNAL_LINK, uri);
+    }
+
     public URIType getType() {
         return type;
     }

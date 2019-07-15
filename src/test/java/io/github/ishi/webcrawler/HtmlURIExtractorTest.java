@@ -8,12 +8,12 @@ import java.util.Set;
 import static io.github.ishi.webcrawler.ExtractedUri.internalLink;
 import static io.github.ishi.webcrawler.ExtractedUri.staticResource;
 
-public class HtmlURIExtractorTest {
+class HtmlURIExtractorTest {
 
     private final HtmlURIExtractor sut = new HtmlURIExtractor();
 
     @Test
-    public void whenHyperLinkProvided_shouldExtractIt() {
+    void whenHyperLinkProvided_shouldExtractIt() {
         // Given
         String content = "<html>" +
                 "<body>" +
@@ -30,7 +30,7 @@ public class HtmlURIExtractorTest {
     }
 
     @Test
-    public void whenImageProvided_shouldExtractIt() {
+    void whenImageProvided_shouldExtractIt() {
         // Given
         String content = "<html>" +
                 "<body>" +
@@ -47,7 +47,7 @@ public class HtmlURIExtractorTest {
     }
 
     @Test
-    public void whenExternalScriptProvided_shouldExtractIt() {
+    void whenExternalScriptProvided_shouldExtractIt() {
         // Given
         String content = "<html>" +
                 "<body>" +
@@ -63,9 +63,8 @@ public class HtmlURIExtractorTest {
                 .isEqualTo(Set.of(staticResource("http://test.script.com/")));
     }
 
-
     @Test
-    public void whenInlineScriptProvided_shouldExtractIt() {
+    void whenInlineScriptProvided_shouldExtractIt() {
         // Given
         String content = "<html>" +
                 "<body>" +
