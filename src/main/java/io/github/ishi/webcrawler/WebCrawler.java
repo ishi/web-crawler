@@ -17,7 +17,7 @@ public class WebCrawler {
 
     private final DataProvider provider;
     private final URIExtractor extractor;
-    private OutputFormat formatter;
+    private final OutputFormat formatter;
     private final DataOutput output;
 
     private final LinkedList<String> toProcess = new LinkedList<>();
@@ -35,35 +35,39 @@ public class WebCrawler {
         toProcess.add(baseUrl);
 
         while (!toProcess.isEmpty()) {
-            logger.debug("URIs to process {}", toProcess);
             String candidate = toProcess.removeFirst();
-            try {
-                UriNormalizer normalizer = new UriNormalizer(candidate);
+            if (visitedLinks.contains(candidate)) continue;
 
-                if (visitedLinks.contains(candidate)) continue;
-                visitedLinks.add(candidate);
+            processUri(candidate);
+        }
+        output.accept(formatter.format(collectedUris));
+    }
 
-                Set<ExtractedUri> links = provider.getContent(candidate)
+    private void processUri(String uri) {
+        try {
+            Set<ExtractedUri> foundUris = extractUrisFromPage(uri);
+            toProcess.addAll(selectUrisForProcessing(foundUris));
+            collectedUris.addAll(foundUris);
+            visitedLinks.add(uri);
+        } catch (URISyntaxException e) {
+            logger.error("Problem parsing URI", e);
+        }
+    }
+
+    private Set<ExtractedUri> extractUrisFromPage(String uri) throws URISyntaxException {
+        return provider.getContent(uri)
                         .map(extractor::extract)
                         .orElse(Collections.emptySet())
                         .stream()
-                        .map(normalizer::normalize)
+                        .map(new UriNormalizer(uri)::normalize)
                         .collect(toSet());
+    }
 
-                collectedUris.addAll(links);
-
-                toProcess.addAll(
-                        links.stream()
-                                .filter(onlyInternalUris())
-                                .map(ExtractedUri::getUri)
-                                .collect(toSet()));
-
-                logger.debug("Visited URIs {}", visitedLinks);
-            } catch (URISyntaxException e) {
-                logger.error("Problem parsing URI", e);
-            }
-        }
-        output.accept(formatter.format(collectedUris));
+    private Set<String> selectUrisForProcessing(Set<ExtractedUri> foundUris) {
+        return foundUris.stream()
+                .filter(onlyInternalUris())
+                .map(ExtractedUri::getUri)
+                .collect(toSet());
     }
 
     private Predicate<? super ExtractedUri> onlyInternalUris() {
